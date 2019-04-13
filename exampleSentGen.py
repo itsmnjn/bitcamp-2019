@@ -10,6 +10,7 @@ from nltk.corpus import wordnet as wn
 import string
 
 import support.scrape as scrape
+import operator
 
 
 stop_words = set(stopwords.words('english')) 
@@ -103,13 +104,15 @@ def printDefExampleSent(inputDict,wordDef):
     for sent in inputDict[wordDef]:
         print('-',sent)
         print('')
-        
-        
-def countDefFreq(inputDict):
+
+def countDefFreq(inputDict,n):
     resDict = {}
     for key in inputDict.keys():
         resDict[key] = len(inputDict[key])
-    return sorted(resDict.items(), key=lambda kv: kv[1])
+    return getTopDefEntries(resDict, n)
+
+def getTopDefEntries(inputDict, n):
+    return dict(sorted(inputDict.items(), key=operator.itemgetter(1), reverse=True)[:n])
 
 targetWord = 'bank'
 #testSent = 'He does not have money in his bank account'
@@ -122,6 +125,7 @@ print('Input sentence: ', testSent)
 print('\n\n\n')
 
 print('--------------------------------------------')
+print('\n\n\n')
 
 dictDef = seperateByDef(targetWord)
 wordDef = getDef(testSent,targetWord)
@@ -129,8 +133,24 @@ wordDef = getDef(testSent,targetWord)
 printDefExampleSent(dictDef,wordDef)
 #printDictKeysVals(dictDef)
 
-# Print out frequency of each definiton used
-#print(countDefFreq(dictDef))
+print('--------------------------------------------')
+print('Most frequently used context')
+print('\n\n\n')
+# Print out frequency of each definiton used  (This is the print out the most frequently used context part)
+topRes = countDefFreq(dictDef, 5)
 
+# Top used context
+for key in topRes.keys():
+    print(key,': ', topRes[key])
+
+print('\n\n\n')
+print('Sentences of the most frequently used context')
+# These are the sentences of the top used context printed out
+
+for key in topRes.keys():
+    print('Context: ', key)
+    for sent in dictDef[key][:5]:
+        print('    - ', sent)
+    print('\n\n')
 
 
