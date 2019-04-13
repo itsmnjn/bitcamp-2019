@@ -40,14 +40,12 @@ def log_error(e):
     """
     print(e)
 	
-def scrape():
+def scrape(targetWord):
 	result_list = []
-	raw_html = simple_get('https://sentence.yourdictionary.com/'+sys.argv[1])
+	raw_html = simple_get('https://sentence.yourdictionary.com/'+targetWord)
 	html = BeautifulSoup(raw_html, 'html.parser')
 	result_block = html.find_all('div', attrs={'class':'li_content'})
 	for result in result_block:
 		result_list.append(result.get_text())
 	return(result_list)
 
-if __name__=='__main__':
-	print(scrape())
