@@ -1,12 +1,17 @@
 var root_url = "http://localhost:5000/";
-var selection = "";
-var parentDiv;
+var sentence = "";
 
-function contextly(info) {
+function contextly(info, sentence) {
     chrome.storage.sync.get(["nat_lang"], function(result) {
         var word = info.selectionText;
         chrome.tabs.create({
-            url: root_url + word + "?nat_lang=" + result.nat_lang
+            url:
+                root_url +
+                word +
+                "?nat_lang=" +
+                result.nat_lang +
+                "&sentence=" +
+                sentence
         });
     });
 }
@@ -34,17 +39,23 @@ chrome.runtime.onInstalled.addListener(function() {
     });
 });
 
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log(
+        sender.tab
+            ? "from a content script:" + sender.tab.url
+            : "from the extension"
+    );
+    if (request.sentence) sendResponse({ farewell: "thanks" });
+    sentence = request.sentence;
+});
+
 chrome.contextMenus.onClicked.addListener(function(info) {
     chrome.tabs.executeScript(
         {
-            code: "window.getSelection();"
+            code: "sendSentence();"
         },
-        function(selection) {
-            console.log(selection);
-            console.log(selection.toString()[0]);
-            var parentDiv = selection.getRangeAt(0).startContainer.parentNode;
-            console.log(selection.toString()[0]);
-            contextly(info);
+        function() {
+            contextly(info, sentence);
         }
     );
 });
