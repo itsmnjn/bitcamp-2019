@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from translate import translate
-from urllib.parse import unquote
+from urllib import unquote
 app = Flask(__name__)
 
 
