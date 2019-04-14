@@ -49,3 +49,26 @@ def scrape(targetWord):
 		result_list.append(result.get_text())
 	return(result_list)
 
+def scrapeFR(targetWord):
+    final_list = []
+    raw_html = simple_get("https://www.linguee.com/english-french/search?source=french&query="+targetWord)
+    html = BeautifulSoup(raw_html, "html.parser")
+    result_block = html.find_all('div', attrs={'class':'wrap'})
+    count = 0
+    final_list = []
+    for i in range(len(result_block)):
+        if(i % 2 == 1):
+            continue
+        temp1 = result_block[i].get_text().replace("[...]", "", 10000).split()       
+        temp1 = [i.strip() for i in temp1]
+        temp1 = " ".join(temp1)
+        new_str = ""
+        for i in range(len(temp1)):
+            if temp1[i] == '.' or temp1[i] == '?' or temp1[i] == '。' or temp1[i] == '？':
+                new_str += temp1[i]
+                break
+            new_str += temp1[i]
+        final_list.append(new_str)
+    return final_list
+        
+
