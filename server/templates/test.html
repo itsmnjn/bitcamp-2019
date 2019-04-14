@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ word }}</title>
+        <style>
+            html {
+                font-family: -apple-system, system-ui, BlinkMacSystemFont,
+                    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            h1 {
+                font-weight: 400;
+                font-size: 2.25em;
+                margin: 0.5em 0 1.5em;
+            }
+
+            h3 {
+                font-weight: 400;
+                font-size: 1.25em;
+                margin-top: 0;
+                margin-bottom: 22px;
+            }
+
+            .container {
+                max-width: 760px;
+                margin: 6em auto;
+                padding: 4em 4em 5em;
+                /* border-radius: 1em; */
+                box-shadow: 0 5px 10px #e7e7e7;
+            }
+
+            #words {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            #words h1 {
+                padding: 0 1em;
+            }
+
+            #columns {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .column {
+                display: block;
+                width: 300px;
+                margin: 0 auto;
+                /* border: 1px solid black; */
+            }
+
+            #similar {
+                margin-right: 0;
+                padding-right: 2.5em;
+                border-right: 1px solid #e2e2e2;
+            }
+
+            #different {
+                margin-left: 0;
+                padding-left: 2.5em;
+            }
+
+            .header {
+                font-size: 1.5em;
+                text-align: center;
+                font-weight: 500;
+                margin: 0 auto 1em;
+            }
+
+            b {
+                font-weight: 700;
+            }
+
+            #main {
+                font-style: italic;
+                font-weight: 400;
+                text-align: center;
+                max-width: 620px;
+                margin: 0 auto 2.75em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="words">
+                <h1>Mean, transl</h1>
+                <!-- <h1>transl</h1> -->
+            </div>
+            <h3 id="main">
+                "She understood those words to <b>mean</b> that he had suddenly
+                softened and that this softening and gentleness were signs of
+                approaching death."
+            </h3>
+            <div id="columns">
+                <div class="column" id="similar">
+                    <h3 class="header">Similar</h3>
+                    <h3>What do you <b>mean</b> by that?</h3>
+                    <h3>I didn't <b>mean</b> to scare you.</h3>
+                    <h3>What does that <b>mean</b>?</h3>
+                </div>
+                <div class="column" id="different">
+                    <h3 class="header">Different</h3>
+                    <h3>What do you <b>mean</b> by that?</h3>
+                    <h3>I didn't <b>mean</b> to scare you.</h3>
+                    <h3>What does that <b>mean</b>?</h3>
+                    <h3>
+                        Mean He teaches how to eat, drink, cohabit, void
+                        excrement and urine, and the like, elevating what is
+                        mean, and does not falsely excuse himself by calling
+                        these things trifles.
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <script>
+            var word = "mean";
+            var h3s = document.getElementsByTagName("h3");
+            for (const h3 of h3s) {
+                var regex = new RegExp(word, "i");
+                var newStr = h3.innerHTML.replace(regex, function(word) {
+                    return "<b>" + word + "</b>";
+                });
+                h3.innerHTML = newStr;
+            }
+        </script>
+    </body>
+</html>

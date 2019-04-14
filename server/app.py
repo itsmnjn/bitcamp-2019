@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from translate import translate
-from urllib import unquote
+from urllib.parse import unquote
+from sort import similar, different
 app = Flask(__name__)
 
 
@@ -15,4 +16,10 @@ def contextly(word):
     sentence = request.args.get("sentence", "")
     sentence = unquote(sentence)
     translated_word = translate(word, nat_lang)
-    return render_template("contextly.html", word=word, translated_word=translated_word, nat_lang=nat_lang, sentence=sentence)
+
+    similar_sentences = similar(word, sentence)
+    diff_sentences = different(word, sentence)
+
+    params = {word: word, translated_word: translated_word, sentence: sentence}
+
+    return render_template("contextly.html", word=word, translated_word=translated_word, sentence=sentence, similar_sentences=similar_sentences, diff_sentences=diff_sentences)
