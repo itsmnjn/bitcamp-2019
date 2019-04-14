@@ -1,5 +1,6 @@
 var root_url = "http://localhost:5000/";
 var selection = "";
+var parentDiv;
 
 function contextly(info) {
     chrome.storage.sync.get(["nat_lang"], function(result) {
@@ -8,30 +9,6 @@ function contextly(info) {
             url: root_url + word + "?nat_lang=" + result.nat_lang
         });
     });
-}
-
-function getSelected() {
-    var userSelection;
-    if (window.getSelection) {
-        userSelection = window.getSelection();
-    } else if (document.selection) {
-        userSelection = document.selection.createRange();
-    }
-    return userSelection;
-}
-
-function getSelectedNode() {
-    if (document.selection)
-        return document.selection.createRange().parentElement();
-    else {
-        var selection = window.getSelection();
-        if (selection.rangeCount > 0)
-            return selection.getRangeAt(0).startContainer.parentNode;
-    }
-}
-
-function storeSelection() {
-    return [window.getSelection()];
 }
 
 var rule = {
@@ -57,13 +34,17 @@ chrome.runtime.onInstalled.addListener(function() {
     });
 });
 
-document.addEventListener("mouseup", storeSelection, false);
-
 chrome.contextMenus.onClicked.addListener(function(info) {
-    var selection = getSelected() + "";
-    var parentDiv = getSelectedNode();
-    console.log(document);
-    var index = parentDiv.indexOf(selection);
-    console.log(parentDiv.substr(0, index));
-    contextly(info);
+    chrome.tabs.executeScript(
+        {
+            code: "window.getSelection();"
+        },
+        function(selection) {
+            console.log(selection);
+            console.log(selection.toString()[0]);
+            var parentDiv = selection.getRangeAt(0).startContainer.parentNode;
+            console.log(selection.toString()[0]);
+            contextly(info);
+        }
+    );
 });
