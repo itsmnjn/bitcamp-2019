@@ -23,3 +23,8 @@ def contextly(word):
     params = {word: word, translated_word: translated_word, sentence: sentence}
 
     return render_template("contextly.html", word=word, translated_word=translated_word, sentence=sentence, similar_sentences=similar_sentences, diff_sentences=diff_sentences)
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template("error.html")

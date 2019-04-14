@@ -2,16 +2,33 @@
 <html>
     <head>
         <style>
+            html {
+                font-family: -apple-system, system-ui, BlinkMacSystemFont,
+                    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
             body {
                 width: 100%;
                 margin: 0;
+                padding: 0.5em 2em 2em;
+            }
+
+            h1 {
+                margin: 20px;
                 padding: 0;
+                font-weight: 400;
             }
 
             .container {
                 padding: 10px;
-                min-width: 20em;
-                max-width: 20em;
+                width: 15em;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             p {
