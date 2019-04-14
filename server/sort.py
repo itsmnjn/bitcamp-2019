@@ -141,10 +141,8 @@ def different(targetWord, testSent):
     topRes = countDefFreq(dictDef, len(dictDef))
 
     for key in topRes.keys():
-        sentences.append(dictDef[key][0])
-
-    print(len(sentences))
-    print(len(dictDef))
+        if key != wordDef:
+            sentences.append(dictDef[key][0])
 
     return sentences
 
