@@ -24,7 +24,7 @@ python-dateutil==2.8.0
 pytz==2019.1
 pywsd==1.1.7
 requests==2.21.0
-rsa==4.0
+rsa==4.1
 singledispatch==3.4.0.3
 six==1.12.0
 soupsieve==1.9.1
